@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+{% load cms_tags sekizai_tags %}
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block tittle %}{% endblock %}</title>
+        <title>{% page_attribute "page_title" %}</title>
+        {% render_block "css" %}
     </head>
     <body>
-        {% include 'Header.html' %}
-        <main>
-            {% block content %}{% endblock %}
-        </main>
-        {% include 'Footer.html' %}
+        {% cms_toolbar %}
+        {% placeholder "content" %}
+        {% render_block "js" %}
     </body>
 </html>
