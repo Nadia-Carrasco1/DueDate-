@@ -1,0 +1,8 @@
+{% extends 'Base.html' %}
+{% load wagtailcore_tags %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+    <div>{{ page.body|richtext }}</div>
+{% endblock %}
