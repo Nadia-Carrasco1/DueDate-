@@ -14,15 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+
+from django.urls import path, include
 from Usuarios import views
 from Interfaz import views as interfaz_views
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', interfaz_views.home_view, name='home'),
     path('Registrarse/', views.Registrarse, name='Registrarse'),
     path('IniciarSesion/', views.IniciarSesion, name='IniciarSesion'),
     path('CerrarSesion/', views.CerrarSesion, name='CerrarSesion'),
-]
+    path('admin/', include(wagtailadmin_urls)),
+    path('documents/', include(wagtaildocs_urls)),
+    path('', include(wagtail_urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
