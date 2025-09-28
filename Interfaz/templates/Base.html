@@ -1,16 +1,68 @@
+{% load static wagtailcore_tags %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>{% block title %}DueDate{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .sidebar {
+      background-color: #6a5acd;
+      min-height: 100vh;
+    }
+    .sidebar .nav-link {
+      color: #f8f9fa;
+    }
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background-color: #7b68ee;
+      border-radius: 6px;
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .navbar {
+      background-color: #342c5f;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-    {% include 'Header.html' %}
-    <main>
-        {% block content %}
-        {% endblock %}
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">📋 DueDate</a>
+    <div class="ms-auto">
+      <button class="btn btn-light btn-sm">+ Nueva tarea</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <aside class="col-md-3 col-lg-2 d-md-block sidebar p-3 text-white">
+      <h4 class="mb-3">Panel</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link " href="#">📅 Hoy</a></li>
+        <li class="nav-item"><a class="nav-link " href="{{ explore_page.url }}">Pagina 2</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">✅ Completadas</a></li>
+      </ul>
+    </aside>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+      {% block content %}{% endblock %}
     </main>
-    {% include 'Footer.html' %}
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -32,4 +32,5 @@ urlpatterns = [
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('', include(wagtail_urls)),
+    path('explore/', include(wagtail_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

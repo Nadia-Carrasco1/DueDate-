@@ -1,12 +1,70 @@
 from django.db import models
 from wagtail.models import Page
-from wagtail.fields import RichTextField
+from wagtail.fields import RichTextField, StreamField
+from wagtail.blocks import StructBlock, CharBlock, RichTextBlock, URLBlock
 from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+
+
+class SectionBlock(StructBlock):
+    heading = CharBlock(required=True, help_text="Título de la sección")
+    content = RichTextBlock(required=True, help_text="Contenido de la sección")
+
+    class Meta:
+        icon = "placeholder"
+        label = "Sección"
+
+class DashboardBlock(StructBlock):
+    title = CharBlock(required=True, help_text="Título de la sección")
+    content = RichTextBlock(required=True, help_text="Contenido de la sección")
+    link = URLBlock(required=False, help_text="Enlace opcional")
+
+    class Meta:
+        icon = "placeholder"
+        label = "Bloque de dashboard"
+
 
 class HomePage(Page):
     template = "home_page.html"
+
+    intro_title = models.CharField(max_length=255, blank=True)
+    body = RichTextField(blank=True)
+
+    sections = StreamField([
+        ('section', SectionBlock()),
+    ], blank=True, use_json_field=True)
+
+    dashboard_blocks = StreamField([
+        ('block', DashboardBlock()),
+    ], blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro_title'),
+        FieldPanel('body'),
+        FieldPanel('sections'),
+        FieldPanel('dashboard_blocks'),
+    ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["tasks"] = Task.objects.order_by("due_date")[:5]
+        return context
+
+class ExplorePage(Page):
+    template = "explore_page.html"
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
     ]
+
+# -Tareas
+@register_snippet
+class Task(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    due_date = models.DateTimeField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
