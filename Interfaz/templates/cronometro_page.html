@@ -1,0 +1,111 @@
+{% extends "Base.html" %}
+
+{% block content %}
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <h1>Cronómetro de estudio 📚</h1>
+    <p>Estudio: {{ page.tiempo_estudio }} - Descanso: {{ page.tiempo_descanso }}</p>
+
+    <h2 id="tiempo-visor" style="font-size: 4em;">00:00:00</h2>
+    <p id="modo-actual">Modo: Estudio</p>
+
+    <div>
+        <button id="btn-iniciar">Iniciar</button>
+        <button id="btn-pausar" disabled>Pausar</button>
+        <button id="btn-reiniciar">Reiniciar</button>
+    </div>
+
+    <script>
+        const tiempoEstudioInicial = {{ page.tiempo_estudio.total_seconds|default:3000|floatformat:0 }}; // 50 minutos
+        const tiempoDescansoInicial = {{ page.tiempo_descanso.total_seconds|default:600|floatformat:0 }}; // 10 minutos
+        
+        let estaCorriendo = false;
+        let esModoEstudio = true;
+        let tiempoRestante = tiempoEstudioInicial;
+        let intervaloTemporizador;
+
+        const visorTiempo = document.getElementById('tiempo-visor');
+        const visorModo = document.getElementById('modo-actual');
+        const btnIniciar = document.getElementById('btn-iniciar');
+        const btnPausar = document.getElementById('btn-pausar');
+        const btnReiniciar = document.getElementById('btn-reiniciar');
+
+        function actualizarVista() {
+            const horas = Math.floor(tiempoRestante / 3600);
+            const segundosDespuesDeHoras = tiempoRestante % 3600;
+            const minutos = Math.floor(segundosDespuesDeHoras / 60);
+            
+            const segundos = segundosDespuesDeHoras % 60;
+            
+            const horasVisor = String(horas).padStart(2, '0');
+            const minutosVisor = String(minutos).padStart(2, '0');
+            const segundosVisor = String(segundos).padStart(2, '0');
+            
+            const visor = `${horasVisor}:${minutosVisor}:${segundosVisor}`;
+                
+            visorTiempo.textContent = visor;
+        }
+
+        function cambiarModo() {
+            esModoEstudio = !esModoEstudio;
+            btnIniciar.disabled = false;
+            
+            if (esModoEstudio) {
+                tiempoRestante = tiempoEstudioInicial;
+                visorModo.innerHTML = "Modo: Estudio";
+            } else {
+                tiempoRestante = tiempoDescansoInicial;
+                visorModo.innerHTML = "Modo: Descanso";
+            }
+            actualizarVista();
+        }
+        
+        function tic() {
+            if (tiempoRestante > 0) {
+                tiempoRestante--;
+                actualizarVista();
+            } else {
+                // Cambia el modo cuando se acaba el tiempo
+                clearInterval(intervaloTemporizador);
+                estaCorriendo = false; 
+                const mensaje = esModoEstudio ? 
+                    "¡Tiempo de estudio terminado! Hora de descansar." : 
+                    "¡Descanso terminado! De vuelta al trabajo.";
+                alert(mensaje);
+                
+                cambiarModo();
+            }
+        }
+
+        function iniciarTemporizador() {
+            if (!estaCorriendo) {
+                estaCorriendo = true;
+                btnIniciar.disabled = true;
+                btnPausar.disabled = false;
+                intervaloTemporizador = setInterval(tic, 1000); 
+            }
+        }
+
+        function pausarTemporizador() {
+            if (estaCorriendo) {
+                estaCorriendo = false;
+                btnIniciar.disabled = false;
+                btnPausar.disabled = true;
+                clearInterval(intervaloTemporizador);
+            }
+        }
+
+        function reiniciarTemporizador() {
+            pausarTemporizador();
+            esModoEstudio = true;
+            tiempoRestante = tiempoEstudioInicial;
+            actualizarVista();
+        }
+
+        btnIniciar.addEventListener('click', iniciarTemporizador);
+        btnPausar.addEventListener('click', pausarTemporizador);
+        btnReiniciar.addEventListener('click', reiniciarTemporizador);
+
+        actualizarVista();
+    </script>
+</div>
+{% endblock %}

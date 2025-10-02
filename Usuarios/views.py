@@ -28,7 +28,7 @@ def Registrarse(request):
                     fail_silently=False,
                 )
 
-                return redirect('home')
+                return redirect('/')
             except IntegrityError:
                 return render(request, 'Registrarse.html', {
                     'form': RegistroForm(),
@@ -41,7 +41,7 @@ def Registrarse(request):
 
 def CerrarSesion(request):
     logout(request)
-    return redirect('home')
+    return redirect('/')
 
 def IniciarSesion(request):
     if request.method == 'GET':
@@ -57,4 +57,4 @@ def IniciarSesion(request):
             })       
         else:
             login(request, user)
-            return redirect('home')
+            return redirect('/')

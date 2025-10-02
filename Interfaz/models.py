@@ -3,6 +3,7 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from wagtail.blocks import StructBlock, CharBlock, RichTextBlock, URLBlock
 from wagtail.admin.panels import FieldPanel
+from datetime import timedelta 
 from wagtail.snippets.models import register_snippet
 from django.utils import timezone
 
@@ -84,4 +85,27 @@ class Task(models.Model):
             now = timezone.now()
             if self.due_date < now:
                 return "vencida" 
-        return "pendiente" 
+        return "pendiente"
+    
+# -Cronómetro
+class CronometroPage(Page):
+    template = "cronometro_page.html" 
+
+    tiempo_estudio = models.DurationField(
+        null=True,
+        blank=True,
+        default=timedelta(minutes=50),
+        help_text="Tiempo de estudio"
+    )
+
+    tiempo_descanso = models.DurationField(
+        null=True,
+        blank=True,
+        default=timedelta(minutes=10),
+        help_text="Tiempo de descanso"
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('tiempo_estudio'),
+        FieldPanel('tiempo_descanso')
+    ]
