@@ -1,0 +1,31 @@
+.fc .fc-button-primary {
+  background-color: #7b68ee;
+  border-color: #6a5acd;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #342c5f;
+  border-color: #5848c2;
+}
+
+.fc .fc-button .fc-icon {
+  color: white; 
+}
+
+.fc-daygrid-day-number {
+  color: #5848c2;
+  font-weight: bold;
+   text-decoration: none;
+}
+
+.fc-col-header-cell-cushion {
+  color: #6a59d6;
+  font-weight: bold;
+  text-decoration: none; 
+}
+
+.fc-toolbar-title {
+  color: #6a5acd;
+  font-weight: bold;
+}
+

@@ -33,16 +33,23 @@
             <p class="card-text text-muted mb-2">{{ task.description|default:"Sin descripción" }}</p>
 
             {% if task.due_date %}
-              <p class="text-secondary small">⏰ Vence: {{ task.due_date|date:"d M Y H:i" }}</p>
+              <p class="text-sm text-muted">
+                ⏰ Vencimiento: <span class="due-date" data-duedate="{{ task.due_date|date:'Y-m-d H:i' }}">
+                  {{ task.due_date|date:"d M Y H:i" }}
+                </span>
+              </p>
             {% endif %}
 
-            <div class="mt-auto">
-              {% if task.completed %}
-                <span class="badge bg-success">Completada</span>
-              {% else %}
-                <span class="badge bg-danger">Pendiente</span>
-              {% endif %}
-            </div>
+          <div class="mt-auto">
+            {% if task.status == "completada" %}
+              <span class="badge bg-success">Completada</span>
+            {% elif task.status == "pendiente" %}
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            {% else %}
+              <span class="badge bg-danger">Vencida</span>
+            {% endif %}
+          </div>
+
           </div>
         </div>
       </div>
@@ -50,4 +57,28 @@
       <p>No hay tareas cargadas.</p>
     {% endfor %}
   </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const dueDates = document.querySelectorAll(".due-date");
+
+    dueDates.forEach(function(el) {
+      const dueDateStr = el.getAttribute("data-duedate");
+      const dueDate = new Date(dueDateStr);
+      const now = new Date();
+
+      const diffMs = dueDate - now;
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      if (diffDays > 0) {
+        el.textContent = ` en ${diffDays} día${diffDays > 1 ? 's' : ''}`;
+      } else if (diffDays === 0) {
+        el.textContent = "hoy 🚨";
+      } else {
+        el.textContent = ` hace ${Math.abs(diffDays)} día${Math.abs(diffDays) > 1 ? 's' : ''}`;
+      }
+    });
+  });
+</script>
+
 {% endblock %}

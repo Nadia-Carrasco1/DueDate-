@@ -4,6 +4,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.blocks import StructBlock, CharBlock, RichTextBlock, URLBlock
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
+from django.utils import timezone
 
 
 class SectionBlock(StructBlock):
@@ -47,16 +48,23 @@ class HomePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["tasks"] = Task.objects.order_by("due_date")[:5]
+        context["tasks"] = Task.objects.order_by("completed","due_date")[:9]
         return context
 
-class ExplorePage(Page):
-    template = "explore_page.html"
+class CalendarioPage(Page):
+    template = "calendario_page.html"
+
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
     ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["tasks"] = Task.objects.exclude(due_date__isnull=True)
+        return context
+
 
 # -Tareas
 @register_snippet
@@ -68,3 +76,12 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+    def status(self):
+        if self.completed:
+            return "completada"
+        if self.due_date:
+            now = timezone.now()
+            if self.due_date < now:
+                return "vencida" 
+        return "pendiente" 

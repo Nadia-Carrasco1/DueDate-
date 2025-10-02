@@ -1,4 +1,5 @@
 {% load static wagtailcore_tags %}
+{% load wagtailcore_tags %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -6,6 +7,8 @@
   <meta charset="UTF-8">
   <title>{% block title %}DueDate{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
   <style>
     body {
       background-color: #f8f9fa;
@@ -37,7 +40,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">📋 DueDate</a>
+    <a class="navbar-brand" href="/">📋 DueDate</a>
     <div class="ms-auto">
       <button class="btn btn-light btn-sm">+ Nueva tarea</button>
     </div>
@@ -47,14 +50,31 @@
 <div class="container-fluid">
   <div class="row">
 
-    <aside class="col-md-3 col-lg-2 d-md-block sidebar p-3 text-white">
-      <h4 class="mb-3">Panel</h4>
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link " href="#">📅 Hoy</a></li>
-        <li class="nav-item"><a class="nav-link " href="{{ explore_page.url }}">Pagina 2</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">✅ Completadas</a></li>
-      </ul>
-    </aside>
+<aside class="col-md-3 col-lg-2 d-md-block sidebar p-3 text-white">
+  <h4 class="mb-3">Panel</h4>
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/">
+        <i class="bi bi-house-door-fill"></i> Inicio
+      </a>
+    </li>
+
+    <li class="nav-item">
+      {% if calendario_page %}
+        <a class="nav-link" href="calendario/">
+          <i class="bi bi-calendar-event-fill"></i> Calendario
+        </a>
+      {% endif %}
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="bi bi-check-circle-fill"></i> Completadas?
+      </a>
+    </li>
+  </ul>
+</aside>
+
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
       {% block content %}{% endblock %}

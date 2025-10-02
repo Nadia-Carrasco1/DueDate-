@@ -25,12 +25,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    #path('', interfaz_views.home_view, name='home'),
     path('Registrarse/', views.Registrarse, name='Registrarse'),
     path('IniciarSesion/', views.IniciarSesion, name='IniciarSesion'),
     path('CerrarSesion/', views.CerrarSesion, name='CerrarSesion'),
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('', include(wagtail_urls)),
-    path('explore/', include(wagtail_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

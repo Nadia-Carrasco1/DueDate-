@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'Usuarios',
-    'Interfaz',
+    'Interfaz.apps.InterfazConfig',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -88,6 +88,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
+                "Interfaz.context_processors.global_pages",
             ],
         },
     },
@@ -122,8 +123,9 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+            'charset': 'utf8mb4',
+            'init_command': "SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'; SET collation_connection='utf8mb4_unicode_ci';"
+        }
     }
 }
 
