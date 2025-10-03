@@ -1,19 +1,86 @@
 {% extends "Base.html" %}
 
 {% block content %}
-    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
-    <h1>Cronómetro de estudio 📚</h1>
-    <p>Estudio: {{ page.tiempo_estudio }} - Descanso: {{ page.tiempo_descanso }}</p>
+    <style>
+        .text-main-violet {
+            color: #6a5acd !important;
+        }
+        .text-main-black {
+            color: rgb(44, 43, 43) !important;
+        }
+        .btn-main-violet {
+            background-color: #6a5acd !important;
+            border-color: #6a5acd !important;
+            color: #fff !important;
+        }
+        .btn-outline-main-violet {
+            color: #6a5acd !important;
+            border-color: #6a5acd !important;
+        }
 
-    <h2 id="tiempo-visor" style="font-size: 4em;">00:00:00</h2>
-    <p id="modo-actual">Modo: Estudio</p>
+        .text-dark-violet {
+            color: #342c5f !important;
+        }
+        .bg-dark-violet {
+            background-color: #342c5f !important;
+            color: #fff !important;
+        }
+        .bg-green {
+            background-color: #28a745 !important;
+            color: #fff !important;
+        }
+        .text-green {
+            color: #28a745 !important;
+        }
+        
+        .btn-main-violet:hover, .btn-main-violet:focus {
+            background-color: #342c5f !important;
+            border-color: #342c5f !important;
+            color: #fff !important;
+            opacity: 0.9;
+        }
+        
+        .nudge-up {
+            transform: translateY(-10%); 
+        }
+    </style>
 
-    <div>
-        <button id="btn-iniciar">Iniciar</button>
-        <button id="btn-pausar" disabled>Pausar</button>
-        <button id="btn-reiniciar">Reiniciar</button>
-    </div>
+    <div class="d-flex justify-content-center align-items-center min-vh-100 w-100">
 
+        <div class="container p-4 rounded shadow-lg bg-white nudge-up" style="max-width: 800px;">
+            
+            <h1 class="text-center mb-4 text-dark-violet">
+                <i class="bi bi-clock-fill me-2"></i> Cronómetro de estudio 📚
+            </h1>
+            
+            <p class="text-center text-muted mb-4">
+                <span class="badge bg-dark-violet me-2">Estudio: {{ page.tiempo_estudio }}</span>
+                <span class="badge bg-green">Descanso: {{ page.tiempo_descanso }}</span>
+            </p>
+
+            <div class="text-center mb-3">
+                <h2 id="tiempo-visor" class="display-1 fw-semibold text-main-black">00:00:00</h2>
+            </div>
+            
+            <p id="modo-actual" class="text-center fs-5 fw-semibold mb-4">
+                Modo: <span class="text-main-violet">Estudio</span>
+            </p>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                
+                <button id="btn-iniciar" class="btn btn-lg btn-main-violet">
+                    <i class="bi bi-play-fill"></i> Iniciar
+                </button>
+                
+                <button id="btn-pausar" class="btn btn-lg btn-warning text-dark" disabled> 
+                    <i class="bi bi-pause-fill"></i> Pausar
+                </button>
+                
+                <button id="btn-reiniciar" class="btn btn-lg btn-outline-main-violet">
+                    <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
+                </button>
+                
+            </div>
     <script>
         const tiempoEstudioInicial = {{ page.tiempo_estudio.total_seconds|default:3000|floatformat:0 }}; // 50 minutos
         const tiempoDescansoInicial = {{ page.tiempo_descanso.total_seconds|default:600|floatformat:0 }}; // 10 minutos
