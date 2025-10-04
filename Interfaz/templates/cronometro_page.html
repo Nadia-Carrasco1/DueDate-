@@ -125,8 +125,8 @@
         const btnReiniciar = document.getElementById('btn-reiniciar');
         const modo = document.getElementById('modo');
 
-        const textoDeModo = modo.textContent == 'Estudio' ? 'descanso' : 'estudio';
-
+        const textoDeModo = modo.textContent === 'Estudio' ? 'descanso' : 'estudio';
+        
         function actualizarVista() {
             const horas = Math.floor(tiempoRestante / 3600);
             const segundosDespuesDeHoras = tiempoRestante % 3600;
@@ -167,6 +167,7 @@
                 estaCorriendo = false; 
 
                 let title, text; // varibles para la libreria de alertas
+                const textoDeModo = esModoEstudio ? 'descanso' : 'estudio'; 
 
                 if (esModoEstudio) {
                     title = "¡Éxito!";
