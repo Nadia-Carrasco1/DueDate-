@@ -1,0 +1,141 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Cuenta</title>
+
+  <!-- Bootstrap Dark Theme -->
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <style>
+    :root {
+      --main-violet: #7c4dff;
+    }
+
+    .btn-main-violet {
+      background-color: var(--main-violet);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-main-violet:hover {
+      background-color: #6a40e5;
+    }
+
+    .text-main-violet {
+      color: var(--main-violet);
+    }
+
+    a {
+      color: var(--main-violet);
+    }
+
+    a:hover {
+      color: #a28cff;
+    }
+
+    body {
+      background-color: #121212;
+    }
+
+    .form-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background-color: #1e1e2f;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .form-control {
+      background-color: #2c2c3c;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .form-control::placeholder {
+      color: #bbb;
+      opacity: 0.7;
+    }
+
+    .form-control:focus {
+        background-color: #2c2c3c;
+        border-color: var(--main-violet);
+        outline: none;
+        box-shadow: 0 0 5px rgba(124, 77, 255, 0.5);
+        color: #fff; 
+        caret-color: #fff; 
+    }
+
+
+    .form-text.text-danger {
+      font-size: 0.9rem;
+    }
+    
+  </style>
+</head>
+<body>
+
+<div class="container form-container">
+  <div class="card">
+    <h2 class="text-center text-main-violet mb-4">Crear cuenta</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">
+            {{ field.label }}
+            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+          </label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="form-text text-danger">
+              {{ field.errors|striptags }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-main-violet w-100">
+        <i class="bi bi-person-plus-fill me-1"></i> Confirmar
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('form input, form select, form textarea').forEach(el => {
+    el.classList.add('form-control');
+    if (el.type === 'password') {
+      el.setAttribute('type', 'password'); 
+    }
+  });
+</script>
+
+</body>
+</html>

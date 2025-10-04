@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificación enviada</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <style>
+    :root {
+      --main-violet: #7c4dff;
+    }
+
+    .btn-main-violet {
+      background-color: var(--main-violet);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-main-violet:hover {
+      background-color: #6a40e5;
+    }
+
+    .text-main-violet {
+      color: var(--main-violet);
+    }
+
+    body {
+      background-color: #121212;
+    }
+
+    .form-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background-color: #1e1e2f;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container form-container">
+  <div class="card text-center">
+    <h2 class="text-main-violet mb-4">📧 Verificá tu correo</h2>
+
+    <p>Te enviamos un correo a <strong>{{ email }}</strong>.</p>
+    <p>Revisá tu bandeja de entrada o spam y hacé clic en el enlace para completar el registro.</p>
+
+    <a href="/" class="btn btn-main-violet w-100 mt-3">
+      <i class="bi bi-house-door me-1"></i> Volver al inicio
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

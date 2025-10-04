@@ -62,6 +62,10 @@ INSTALLED_APPS = [
     'wagtail',
     'modelcluster',
     'taggit',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
 ]
 
 MIDDLEWARE = [
@@ -74,6 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'Due_Date.urls'
@@ -117,7 +122,7 @@ THUMBNAIL_PROCESSORS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'due_date_db2',
+        'NAME': 'due_date_dash_db',
         'USER': 'root',
         'PASSWORD': 'DueDate123',
         'HOST': '127.0.0.1',
@@ -153,13 +158,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'es'  
+TIME_ZONE = 'America/Argentina/Buenos_Aires'  
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -182,3 +187,19 @@ WAGTAIL_SITE_NAME = 'Due Date'
 WAGTAILADMIN_BASE_URL = 'http://127.0.0.1:8000'
 
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# LOGIN
+ACCOUNT_LOGIN_METHODS = {'email'} 
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*'] 
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = '/'
+
+
