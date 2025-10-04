@@ -2,6 +2,33 @@
 
 {% block content %}
     <style>
+        /* AlertifyJS */
+
+        .ajs-button.ajs-ok {
+            background-color: #6a5acd; 
+            color: white; 
+            border-color: #6a5acd;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+       .ajs-button.ajs-ok:hover {
+            background-color: #342c5f;
+        }
+        .ajs-header, .ajs-body {
+            font-weight: 600;
+        }
+        .ajs-body {
+            padding: 10px;
+            padding-left: 0px;
+            font-size: large;
+        }
+
+        .ajs-close {
+            display: none !important;
+        }
+
+        /* Cronómetro */
         .text-main-violet {
             color: #6a5acd !important;
         }
@@ -63,7 +90,7 @@
             </div>
             
             <p id="modo-actual" class="text-center fs-5 fw-semibold mb-4">
-                Modo: <span class="text-main-violet">Estudio</span>
+                Modo <span class="text-main-violet" id="modo">Estudio</span>
             </p>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
@@ -92,9 +119,13 @@
 
         const visorTiempo = document.getElementById('tiempo-visor');
         const visorModo = document.getElementById('modo-actual');
+        console.log(visorModo.textContent);
         const btnIniciar = document.getElementById('btn-iniciar');
         const btnPausar = document.getElementById('btn-pausar');
         const btnReiniciar = document.getElementById('btn-reiniciar');
+        const modo = document.getElementById('modo');
+
+        const textoDeModo = modo.textContent == 'Estudio' ? 'descanso' : 'estudio';
 
         function actualizarVista() {
             const horas = Math.floor(tiempoRestante / 3600);
@@ -118,10 +149,10 @@
             
             if (esModoEstudio) {
                 tiempoRestante = tiempoEstudioInicial;
-                visorModo.innerHTML = "Modo: Estudio";
+                visorModo.innerHTML = "Modo Estudio";
             } else {
                 tiempoRestante = tiempoDescansoInicial;
-                visorModo.innerHTML = "Modo: Descanso";
+                visorModo.innerHTML = "Modo Descanso";
             }
             actualizarVista();
         }
@@ -131,15 +162,26 @@
                 tiempoRestante--;
                 actualizarVista();
             } else {
-                // Cambia el modo cuando se acaba el tiempo
+                // Detiene el temporizador
                 clearInterval(intervaloTemporizador);
                 estaCorriendo = false; 
-                const mensaje = esModoEstudio ? 
-                    "¡Tiempo de estudio terminado! Hora de descansar." : 
-                    "¡Descanso terminado! De vuelta al trabajo.";
-                alert(mensaje);
-                
-                cambiarModo();
+
+                let title, text; // varibles para la libreria de alertas
+
+                if (esModoEstudio) {
+                    title = "¡Éxito!";
+                    text = "¡Tiempo de <span class='text-main-violet'>estudio</span> terminado! Hora de descansar.";
+                } else {
+                    title = "¡Bien!";
+                    text = "¡<span class='text-green'>Descanso</span> terminado! De vuelta al trabajo.";
+                }
+
+                alertify.alert(title, text, function(){
+                    cambiarModo();
+                    iniciarTemporizador()
+                }).set({
+                    'label': 'Comenzar ' + textoDeModo
+                }); 
             }
         }
 
