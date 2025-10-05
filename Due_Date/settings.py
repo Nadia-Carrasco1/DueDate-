@@ -36,6 +36,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ACCOUNT_LOGIN_ON_SIGNUP = False
+ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/confirm-email/'
 
 # Application definition
 
