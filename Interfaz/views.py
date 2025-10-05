@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from .models import Task
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+
 def home_view(request):
     return render(request, 'home_page.html') 
 
+@login_required
 def add_task(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -18,6 +23,6 @@ def add_task(request):
             completed=False
         )
         messages.success(request, "Tarea agregada con éxito 🎉")
-        return redirect("/") 
+        return redirect("/")
 
     return redirect("/")

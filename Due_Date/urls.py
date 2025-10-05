@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.urls import path, include
+from Usuarios import views
 from Interfaz import views  as interfaz_views
 #from Interfaz import views as interfaz_views
 from wagtail.admin import urls as wagtailadmin_urls

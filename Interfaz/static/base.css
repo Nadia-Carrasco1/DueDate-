@@ -1,0 +1,75 @@
+    body {
+      background-color: #f8f9fa;
+    }
+    .sidebar {
+      background-color: #6a5acd;
+      min-height: 100vh;
+    }
+    .sidebar .nav-link {
+      color: #f8f9fa;
+    }
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background-color: #7b68ee;
+      border-radius: 6px;
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .navbar {
+      background-color: #342c5f;
+      color: #fff;
+    }
+
+
+.modal-header {
+  background-color: #342c5f; 
+  color: #fff;                 
+  border-bottom: none;
+}
+.modal-header .btn-close{
+    filter: invert(1);
+}
+
+
+.modal-title {
+  color: #fff;
+  font-weight: 600; 
+}
+
+
+.modal-body {
+  background-color: #f8f8fb;
+  color: #342c5f;
+}
+
+
+.modal-footer {
+  background-color: #f0eff8;
+  border-top: none;
+}
+
+
+.modal-footer .btn-primary {
+  background-color: #6a5acd; 
+  border-color: #6a5acd;
+  color: #fff;
+}
+.modal-footer .btn-primary:hover {
+  background-color: #5848b8;  
+  border-color: #5848b8;
+}
+
+
+.modal-footer .btn-secondary {
+  background-color: #342c5f;
+  border-color: #342c5f;
+  color: #fff;
+}
+.modal-footer .btn-secondary:hover {
+  background-color: #2a244d;
+  border-color: #2a244d;
+}
+    
