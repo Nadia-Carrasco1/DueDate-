@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.urls import path, include
+from Interfaz import views  as interfaz_views
 #from Interfaz import views as interfaz_views
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -29,5 +30,6 @@ urlpatterns = [
     path('documents/', include(wagtaildocs_urls)),
     path('accounts/confirm-email/', MyConfirmEmailView.as_view(), name="account_confirm_email"),
     path('accounts/', include('allauth.urls')),
+    path('add_task/', interfaz_views.add_task, name='add_task'),
     path('', include(wagtail_urls)), 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

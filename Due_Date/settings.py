@@ -122,9 +122,9 @@ THUMBNAIL_PROCESSORS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'due_date_dash_db',
-        'USER': 'root',
-        'PASSWORD': 'DueDate123',
+        'NAME': 'due_date_db',
+        'USER': 'santi',
+        'PASSWORD': '12345',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
