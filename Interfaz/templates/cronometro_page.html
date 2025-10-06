@@ -12,7 +12,7 @@
             border-radius: 10px;
         }
 
-       .ajs-button.ajs-ok:hover {
+        .ajs-button.ajs-ok:hover {
             background-color: #342c5f;
         }
         .ajs-header, .ajs-body {
@@ -29,36 +29,14 @@
         }
 
         /* Cronómetro */
-        .text-main-violet {
-            color: #6a5acd !important;
-        }
-        .text-main-black {
-            color: rgb(44, 43, 43) !important;
-        }
-        .btn-main-violet {
-            background-color: #6a5acd !important;
-            border-color: #6a5acd !important;
-            color: #fff !important;
-        }
-        .btn-outline-main-violet {
-            color: #6a5acd !important;
-            border-color: #6a5acd !important;
-        }
-
-        .text-dark-violet {
-            color: #342c5f !important;
-        }
-        .bg-dark-violet {
-            background-color: #342c5f !important;
-            color: #fff !important;
-        }
-        .bg-green {
-            background-color: #28a745 !important;
-            color: #fff !important;
-        }
-        .text-green {
-            color: #28a745 !important;
-        }
+        .text-main-violet { color: #6a5acd !important; }
+        .text-main-black { color: rgb(44, 43, 43) !important; }
+        .btn-main-violet { background-color: #6a5acd !important; border-color: #6a5acd !important; color: #fff !important; }
+        .btn-outline-main-violet { color: #6a5acd !important; border-color: #6a5acd !important; }
+        .text-dark-violet { color: #342c5f !important; }
+        .bg-dark-violet { background-color: #342c5f !important; color: #fff !important; }
+        .bg-green { background-color: #28a745 !important; color: #fff !important; }
+        .text-green { color: #28a745 !important; }
         
         .btn-main-violet:hover, .btn-main-violet:focus {
             background-color: #342c5f !important;
@@ -70,47 +48,99 @@
         .nudge-up {
             transform: translateY(-10%); 
         }
+
+        .cronometro-circular {
+            width: 250px;
+            height: 250px;
+            border: 10px solid #6a5acd; 
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        .cronometro-circular #tiempo-visor {
+            font-size: 3.5rem;
+        }
+
+        .cronometro-circular #modo-actual {
+            margin-bottom: 0 !important;
+            font-size: 1.2rem;
+        }
     </style>
 
     <div class="d-flex justify-content-center align-items-center min-vh-100 w-100">
 
-        <div class="container p-4 rounded shadow-lg bg-white nudge-up" style="max-width: 800px;">
-            
-            <h1 class="text-center mb-4 text-dark-violet">
-                <i class="bi bi-clock-fill me-2"></i> Cronómetro de estudio 📚
-            </h1>
-            
-            <p class="text-center text-muted mb-4">
-                <span class="badge bg-dark-violet me-2">Estudio: {{ page.tiempo_estudio }}</span>
-                <span class="badge bg-green">Descanso: {{ page.tiempo_descanso }}</span>
-            </p>
+    <div class="container p-4 rounded shadow-lg bg-white nudge-up" style="max-width: 800px;">
+        
+        <h1 class="text-center mb-4 text-dark-violet">
+            <i class="bi bi-clock-fill me-2"></i> Cronómetro de estudio 📚
+        </h1>
+        
+        <p class="text-center text-muted mb-4">
+            <span class="badge bg-dark-violet me-2">Estudio: {{ page.tiempo_estudio }}</span>
+            <span class="badge bg-green">Descanso: {{ page.tiempo_descanso }}</span>
+        </p>
 
-            <div class="text-center mb-3">
-                <h2 id="tiempo-visor" class="display-1 fw-semibold text-main-black">00:00:00</h2>
+        <div class="row align-items-center mb-5">
+            
+            <div class="col-md-6 text-center mb-4 mb-md-0">
+                <div class="cronometro-circular">
+                    <h2 id="tiempo-visor" class="fw-semibold text-main-black">00:00:00</h2>
+                    <p id="modo-actual" class="fs-5 fw-semibold">
+                        Modo <span class="text-main-violet" id="modo">Estudio</span>
+                    </p>
+                </div>
             </div>
             
-            <p id="modo-actual" class="text-center fs-5 fw-semibold mb-4">
-                Modo <span class="text-main-violet" id="modo">Estudio</span>
-            </p>
+            <div class="col-md-6">
+                
+                <div class="p-3 border rounded">
+                    <h4 class="mb-3 text-dark-violet">Configuración de Tiempos (minutos)</h4>
+                    
+                    <div class="mb-3">
+                        <label for="input-estudio" class="form-label fw-semibold">Tiempo de estudio</label>
+                        <input type="number" class="form-control" id="input-estudio" min="1" 
+                               value="{{ page.tiempo_estudio.total_seconds|default:3000|floatformat:0 }}">
+                    </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                
-                <button id="btn-iniciar" class="btn btn-lg btn-main-violet">
-                    <i class="bi bi-play-fill"></i> Iniciar
-                </button>
-                
-                <button id="btn-pausar" class="btn btn-lg btn-warning text-dark" disabled> 
-                    <i class="bi bi-pause-fill"></i> Pausar
-                </button>
-                
-                <button id="btn-reiniciar" class="btn btn-lg btn-outline-main-violet">
-                    <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
-                </button>
-                
+                    <div class="mb-3">
+                        <label for="input-descanso" class="form-label fw-semibold">Tiempo de descanso</label>
+                        <input type="number" class="form-control" id="input-descanso" min="1" 
+                               value="{{ page.tiempo_descanso.total_seconds|default:600|floatformat:0 }}">
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button id="btn-aceptar" class="btn btn-main-violet mt-2">
+                            Aceptar nuevos tiempos
+                        </button>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            
+            <button id="btn-iniciar" class="btn btn-lg btn-main-violet">
+                <i class="bi bi-play-fill"></i> Iniciar
+            </button>
+            
+            <button id="btn-pausar" class="btn btn-lg btn-warning text-dark" disabled> 
+                <i class="bi bi-pause-fill"></i> Pausar
+            </button>
+            
+            <button id="btn-reiniciar" class="btn btn-lg btn-outline-main-violet">
+                <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
+            </button>
+        </div>
+
     <script>
-        const tiempoEstudioInicial = {{ page.tiempo_estudio.total_seconds|default:3000|floatformat:0 }}; // 50 minutos
-        const tiempoDescansoInicial = {{ page.tiempo_descanso.total_seconds|default:600|floatformat:0 }}; // 10 minutos
+        const tiempoEstudioBase = {{ page.tiempo_estudio.total_seconds|default:3000|floatformat:0 }}; 
+        const tiempoDescansoBase = {{ page.tiempo_descanso.total_seconds|default:600|floatformat:0 }};
+        
+        let tiempoEstudioInicial = tiempoEstudioBase; 
+        let tiempoDescansoInicial = tiempoDescansoBase;
         
         let estaCorriendo = false;
         let esModoEstudio = true;
@@ -119,13 +149,12 @@
 
         const visorTiempo = document.getElementById('tiempo-visor');
         const visorModo = document.getElementById('modo-actual');
-        console.log(visorModo.textContent);
         const btnIniciar = document.getElementById('btn-iniciar');
         const btnPausar = document.getElementById('btn-pausar');
         const btnReiniciar = document.getElementById('btn-reiniciar');
-        const modo = document.getElementById('modo');
-
-        const textoDeModo = modo.textContent === 'Estudio' ? 'descanso' : 'estudio';
+        const inputEstudio = document.getElementById('input-estudio');
+        const inputDescanso = document.getElementById('input-descanso');
+        const btnAceptar = document.getElementById('btn-aceptar');        const modo = document.getElementById('modo');
         
         function actualizarVista() {
             const horas = Math.floor(tiempoRestante / 3600);
@@ -149,10 +178,10 @@
             
             if (esModoEstudio) {
                 tiempoRestante = tiempoEstudioInicial;
-                visorModo.innerHTML = "Modo Estudio";
+                visorModo.innerHTML = "Modo <span class='text-main-violet'>Estudio</span>";
             } else {
                 tiempoRestante = tiempoDescansoInicial;
-                visorModo.innerHTML = "Modo Descanso";
+                visorModo.innerHTML = "Modo <span class='text-green'>Descanso</span>";
             }
             actualizarVista();
         }
@@ -186,6 +215,18 @@
             }
         }
 
+         function aceptarTiempos() {
+            const nuevoTiempoEstudioMin = parseInt(inputEstudio.value);
+            const nuevoTiempoDescansoMin = parseInt(inputDescanso.value);
+            
+            tiempoEstudioInicial = nuevoTiempoEstudioMin * 60;
+            tiempoDescansoInicial = nuevoTiempoDescansoMin * 60;
+            
+            reiniciarTemporizador();
+            iniciarTemporizador();
+            alertify.success(`Tiempos actualizados: Estudio ${nuevoTiempoEstudioMin} min | Descanso ${nuevoTiempoDescansoMin} min`);
+        }
+
         function iniciarTemporizador() {
             if (!estaCorriendo) {
                 estaCorriendo = true;
@@ -208,12 +249,17 @@
             pausarTemporizador();
             esModoEstudio = true;
             tiempoRestante = tiempoEstudioInicial;
+            visorModo.innerHTML = "Modo <span class='text-main-violet'>Estudio</span>";
             actualizarVista();
         }
 
         btnIniciar.addEventListener('click', iniciarTemporizador);
         btnPausar.addEventListener('click', pausarTemporizador);
         btnReiniciar.addEventListener('click', reiniciarTemporizador);
+        btnAceptar.addEventListener('click', aceptarTiempos);
+        
+        inputEstudio.value = tiempoEstudioInicial / 60; 
+        inputDescanso.value = tiempoDescansoInicial / 60;
 
         actualizarVista();
     </script>
