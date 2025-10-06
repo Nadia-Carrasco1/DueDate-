@@ -12,14 +12,12 @@ class MySignupView(SignupView):
         user.is_active = False
         user.save()
 
-        # Usa get_or_create para evitar errores si el email ya está
         email_address, created = EmailAddress.objects.get_or_create(
             user=user,
             email=user.email,
             defaults={'verified': False, 'primary': True}
         )
 
-        # ✅ Este método se encarga de TODO (crear y guardar confirmación y enviar mail)
         email_address.send_confirmation(self.request, signup=True)
 
         self.request.session["signup_email"] = user.email
@@ -39,7 +37,6 @@ class MyConfirmEmailView(ConfirmEmailView):
         self.object = self.get_object()
         response = super().get(request, *args, **kwargs)
 
-        # ✅ Obtené el EmailAddress desde el objeto
         email_address = self.object.email_address
         if email_address and email_address.verified:
             user = email_address.user
