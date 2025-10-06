@@ -1,4 +1,50 @@
-from allauth.account.views import ConfirmEmailView as AllauthConfirmEmailView
+from django.shortcuts import redirect
+from allauth.account.views import SignupView, EmailVerificationSentView, ConfirmEmailView
+from allauth.account.models import EmailAddress, EmailConfirmation
+from allauth.account.adapter import get_adapter
 
-class MyConfirmEmailView(AllauthConfirmEmailView):
-    template_name = "account/confirm_email.html"
+
+class MySignupView(SignupView):
+    template_name = "registo_page.html"
+
+    def form_valid(self, form):
+        user = form.save(self.request)
+        user.is_active = False
+        user.save()
+
+        # Usa get_or_create para evitar errores si el email ya está
+        email_address, created = EmailAddress.objects.get_or_create(
+            user=user,
+            email=user.email,
+            defaults={'verified': False, 'primary': True}
+        )
+
+        # ✅ Este método se encarga de TODO (crear y guardar confirmación y enviar mail)
+        email_address.send_confirmation(self.request, signup=True)
+
+        self.request.session["signup_email"] = user.email
+        return redirect("account_email_verification_sent")
+    
+class MyEmailVerificationSentView(EmailVerificationSentView):
+    template_name = "account/email_verification_sent.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["email"] = self.request.session.get("signup_email", "")
+        return context
+
+
+class MyConfirmEmailView(ConfirmEmailView):
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        response = super().get(request, *args, **kwargs)
+
+        # ✅ Obtené el EmailAddress desde el objeto
+        email_address = self.object.email_address
+        if email_address and email_address.verified:
+            user = email_address.user
+            if not user.is_active:
+                user.is_active = True
+                user.save()
+
+        return redirect("account_login")
