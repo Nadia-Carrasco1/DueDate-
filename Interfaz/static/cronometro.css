@@ -1,0 +1,61 @@
+/* AlertifyJS */
+.ajs-button.ajs-ok {
+    background-color: #6a5acd; 
+    color: white; 
+    border-color: #6a5acd;
+    padding: 10px;
+    border-radius: 10px;
+}
+.ajs-button.ajs-ok:hover {
+    background-color: #342c5f;
+}
+.ajs-header, .ajs-body {
+    font-weight: 600;
+}
+.ajs-body {
+    padding: 10px;
+    padding-left: 0px;
+    font-size: large;
+}
+.ajs-close {
+    display: none !important;
+}
+/* Cronómetro */
+.text-main-violet { color: #6a5acd !important; }
+.text-main-black { color: rgb(44, 43, 43) !important; }
+.btn-main-violet { background-color: #6a5acd !important; border-color: #6a5acd !important; color: #fff !important; }
+.btn-outline-main-violet { color: #6a5acd !important; border-color: #6a5acd !important; }
+.text-dark-violet { color: #342c5f !important; }
+.bg-dark-violet { background-color: #342c5f !important; color: #fff !important; }
+.bg-green { background-color: #28a745 !important; color: #fff !important; }
+.text-green { color: #28a745 !important; }
+
+.btn-main-violet:hover, .btn-main-violet:focus {
+    background-color: #342c5f !important;
+    border-color: #342c5f !important;
+    color: #fff !important;
+    opacity: 0.9;
+}
+
+.nudge-up {
+    transform: translateY(-10%); 
+}
+.cronometro-circular {
+    width: 250px;
+    height: 250px;
+    border: 10px solid #6a5acd; 
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+.cronometro-circular #tiempo-visor {
+    font-size: 3.5rem;
+}
+.cronometro-circular #modo-actual {
+    margin-bottom: 0 !important;
+    font-size: 1.2rem;
+}
