@@ -31,11 +31,13 @@ from Usuarios.views import (
 
 urlpatterns = [
     path('admin/', include(wagtailadmin_urls)),
+    path("", include("Interfaz.urls")),
     path('documents/', include(wagtaildocs_urls)),
     path("accounts/signup/", MySignupView.as_view(), name="account_signup"),
     path("accounts/confirm-email/", MyEmailVerificationSentView.as_view(), name="account_email_verification_sent"),
     path("accounts/confirm-email/<key>/", MyConfirmEmailView.as_view(), name="account_confirm_email"),
     path("accounts/", include("allauth.urls")),
     path('add_task/', interfaz_views.add_task, name='add_task'),
-    path('', include(wagtail_urls)), 
+    path('soap/', interfaz_views.soap_view, name='soap_service'),
+    path('', include(wagtail_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
