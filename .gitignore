@@ -1,7 +1,30 @@
+# Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+
+# Entornos virtuales
+.venv310/
+venv/
+ENV/
+env/
+
+# Django
 *.sqlite3
 *.log
 .env
 /staticfiles/
-/media/
+media/
+
+# Django migrations (opcional, si no querés subirlas)
+*/migrations/*.py
+*/migrations/*.pyc
+!*/migrations/__init__.py
+
+# VSCode / IDEs
+.vscode/
+.idea/
+
+# Wagtail / easy-thumbnails / filer
+.thumbnails/

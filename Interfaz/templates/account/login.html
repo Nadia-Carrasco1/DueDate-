@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -124,6 +126,10 @@
 
 
       <button type="submit" class="btn btn-main-violet w-100">Confirmar</button>
+      <a href="{% provider_login_url 'google' %}" class="btn btn-danger w-100 mt-3">
+        <i class="bi bi-google me-2"></i> Iniciar sesión con Google
+      </a>
+
     </form>
 
     <div class="text-center mt-3">
