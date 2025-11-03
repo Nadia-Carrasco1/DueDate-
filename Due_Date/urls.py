@@ -25,7 +25,7 @@ from django.conf.urls.static import static
 from Usuarios.views import (
     MyEmailVerificationSentView,
     MyConfirmEmailView,
-    MySignupView
+    MySignupView,
 )
 
 

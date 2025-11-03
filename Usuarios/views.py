@@ -1,27 +1,33 @@
 from django.shortcuts import redirect
 from allauth.account.views import SignupView, EmailVerificationSentView, ConfirmEmailView
 from allauth.account.models import EmailAddress, EmailConfirmation
-from allauth.account.adapter import get_adapter
-
+from allauth.socialaccount.models import SocialAccount
 
 class MySignupView(SignupView):
-    template_name = "registo_page.html"
+    template_name = "registro_page.html"
 
     def form_valid(self, form):
-        user = form.save(self.request)
-        user.is_active = False
-        user.save()
+            user = form.save(self.request)
 
-        email_address, created = EmailAddress.objects.get_or_create(
-            user=user,
-            email=user.email,
-            defaults={'verified': False, 'primary': True}
-        )
+            if not SocialAccount.objects.filter(user=user).exists():
+                user.is_active = False
+                user.save()
 
-        email_address.send_confirmation(self.request, signup=True)
+                email_address, created = EmailAddress.objects.get_or_create(
+                    user=user,
+                    email=user.email,
+                    defaults={'verified': False, 'primary': True}
+                )
 
-        self.request.session["signup_email"] = user.email
-        return redirect("account_email_verification_sent")
+                email_address.send_confirmation(self.request, signup=True)
+
+                self.request.session["signup_email"] = user.email
+                return redirect("account_email_verification_sent")
+
+            else:
+                user.is_active = True
+                user.save()
+                return redirect("/") 
     
 class MyEmailVerificationSentView(EmailVerificationSentView):
     template_name = "account/email_verification_sent.html"

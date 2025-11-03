@@ -35,6 +35,9 @@ SECRET_KEY = 'django-insecure-%%89eea&&_uhjwj6ri)2q6kyooco2dk$52a$6!84b&4p*6!y$_
 DEBUG = True
 
 ALLOWED_HOSTS = []
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
 
 ACCOUNT_LOGIN_ON_SIGNUP = False
 ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/confirm-email/'
@@ -69,6 +72,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_celery_results', 
     'django_celery_beat',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +85,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-    "allauth.account.middleware.AccountMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Due_Date.urls'
@@ -195,6 +199,17 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+           'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
+            'secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
 
 # LOGIN
 ACCOUNT_LOGIN_METHODS = {'email'} 
