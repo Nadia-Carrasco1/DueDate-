@@ -16,7 +16,7 @@ const btnPausar = document.getElementById('btn-pausar');
 const btnReiniciar = document.getElementById('btn-reiniciar');
 const inputEstudio = document.getElementById('input-estudio');
 const inputDescanso = document.getElementById('input-descanso');
-const btnAceptar = document.getElementById('btn-aceptar');        const modo = document.getElementById('modo');
+const btnAceptar = document.getElementById('btn-aceptar');
         
 function actualizarVista() {
     const horas = Math.floor(tiempoRestante / 3600);

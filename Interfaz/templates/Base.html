@@ -117,6 +117,10 @@
             <label for="due_date" class="form-label">Fecha límite</label>
             <input type="datetime-local" class="form-control" id="due_date" name="due_date">
           </div>
+          <div class="mb-3 form-check">
+            <label for="reminder" class="form-check-label">Recibir recordatorio</label>
+            <input type="checkbox" class="form-check-input" id="reminder" name="reminder">
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Guardar</button>
@@ -126,8 +130,5 @@
     </div>
   </div>
 </div>
-
-<script src="{% static 'cronometro.js' %}"></script>
-
 </body>
 </html>

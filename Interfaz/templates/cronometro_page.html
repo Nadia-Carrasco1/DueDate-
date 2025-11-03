@@ -70,6 +70,7 @@
             const TIEMPO_ESTUDIO_BASE = {{ page.tiempo_estudio.total_seconds|default:3000|floatformat:0 }}; 
             const TIEMPO_DESCANSO_BASE = {{ page.tiempo_descanso.total_seconds|default:600|floatformat:0 }};
         </script>
+        <script src="{% static 'cronometro.js' %}"></script>
         <link href="{% static 'cronometro.css' %}" rel="stylesheet">
     </div>
 </div>

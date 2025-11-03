@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
+    'django_celery_results', 
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,7 @@ THUMBNAIL_PROCESSORS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'due_date_dash_db',
+        'NAME': 'due_date_db2',
         'USER': 'root',
         'PASSWORD': 'DueDate123',
         'HOST': '127.0.0.1',
@@ -203,3 +204,22 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = '/'
+
+# SendGrid
+token = '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'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = token
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True 
+DEFAULT_FROM_EMAIL = 'damaris.scalia@est.fi.uncoma.edu.ar'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0' 
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Argentina/Buenos_Aires'

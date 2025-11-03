@@ -4,7 +4,8 @@ from .models import Task
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'due_date', 'completed']
+        fields = ['title', 'description', 'due_date', 'completed', 'reminder']
         widgets = {
             'due_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'reminder': forms.CheckboxInput()
         }
